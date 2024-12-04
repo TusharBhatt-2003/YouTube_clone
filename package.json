@@ -14,6 +14,10 @@
   "author": "Tushar Bhatt",
   "license": "ISC",
   "dependencies": {
+    "prettier": "^3.4.2",
     "project": "file:"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
   }
 }
