@@ -36,12 +36,12 @@ const registerUser = asyncHandler(async (req, res) => {
   // Check for User Creation
   // Return response
 
-  const { username, email, fullname, password } = req.body;
-  console.log(username, email, fullname, password);
+  const { fullName, email, username, password } = req.body;
+  console.log(username, email, fullName, password);
 
   // Validation
   if (
-    [username, email, fullname, password].some((field) => field?.trim() === "")
+    [fullName, email, username, password].some((field) => field?.trim() === "")
   ) {
     throw new ApiError(400, "All files are required");
   }
@@ -55,7 +55,7 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(409, "User already exists");
   }
 
-  console.log(req.files);
+  console.log("file", req.files);
 
   // Check for images, Check for Avatar
   const avatarLocalPath = req.files?.avatar[0]?.path;
@@ -84,7 +84,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // Create User Object - Create Entry in DB
   const user = await User.create({
-    fullname,
+    fullName,
     avatar: avatar.url,
     coverImage: coverImage?.url || "",
     email,
@@ -175,7 +175,7 @@ const logoutUser = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(
     req.user._id,
     {
-      $set: {
+      $unset: {
         refreshToken: 1, // this removes the field from document
       },
     },
